@@ -1,28 +1,211 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './app.css';
 
-class App extends Component {
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      type: null,
+      state: null,
+      data: null,
+      selectedRep: {},
+      error: null
+    };
+  }
+  onSubmit = event => {
+    event.preventDefault();
+    if (this.state.type && this.state.state) {
+      fetch(`http://localhost:3000/${this.state.type}/${this.state.state}`)
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          this.setState({
+            error: null,
+            data: data.results
+          });
+        });
+    } else {
+      this.setState({
+        error: 'Please pick from the dropdown lists before searching.'
+      });
+    }
+  };
+
+  handleChange = e => {
+    this.setState({
+      type: e.target.value
+    });
+  };
+
+  handleStateChange = e => {
+    this.setState({
+      state: e.target.value
+    });
+  };
+
+  populateData = i => {
+    this.setState({
+      selectedRep: this.state.data[i]
+    });
+    // let selectedRep = this.state.data[i];
+  };
   render() {
+    const states = [
+      'AL',
+      'AK',
+      'AZ',
+      'AR',
+      'CA',
+      'CO',
+      'CT',
+      'DE',
+      'DC',
+      'FL',
+      'GA',
+      'HI',
+      'ID',
+      'IL',
+      'IN',
+      'IA',
+      'KS',
+      'KY',
+      'LA',
+      'ME',
+      'MD',
+      'MA',
+      'MI',
+      'MN',
+      'MS',
+      'MO',
+      'MT',
+      'NE',
+      'NV',
+      'NH',
+      'NJ',
+      'NM',
+      'NY',
+      'NC',
+      'ND',
+      'OH',
+      'OK',
+      'OR',
+      'PA',
+      'RI',
+      'SC',
+      'SD',
+      'TN',
+      'TX',
+      'UT',
+      'VT',
+      'VA',
+      'WA',
+      'WV',
+      'WI',
+      'WY'
+    ];
+    let stateSelect = states.map((ele, index) => {
+      return (
+        <option key={index} value={ele}>
+          {ele}
+        </option>
+      );
+    });
+    let repList;
+    let partyList;
+    if (this.state.data) {
+      repList = this.state.data.map((ele, index) => {
+        return (
+          <li key={index} onClick={() => this.populateData(index)}>
+            {ele.name}
+          </li>
+        );
+      });
+      partyList = this.state.data.map((ele, index) => {
+        return <li key={index}>{ele.party.charAt(0)}</li>;
+      });
+    }
+    let first;
+    let last;
+    let district;
+    let phone;
+    let office;
+    let link;
+    if (this.state.selectedRep) {
+      let name = this.state.selectedRep.name;
+      if (name) {
+        first = name.split(' ')[0];
+        last = name.split(' ')[1];
+      }
+      district = this.state.selectedRep.district;
+      phone = this.state.selectedRep.phone;
+      office = this.state.selectedRep.office;
+      link = this.state.selectedRep.link;
+    }
+    let error;
+    if (this.state.error) {
+      error = <p>{this.state.error}</p>;
+    }
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <div>
+          <h1>Who's My Representative?</h1>
+        </div>
+        {error}
+        <div>
+          <form onSubmit={e => this.onSubmit(e)} id="selectform">
+            <select form="selectform" onChange={this.handleChange}>
+              <option>Choose Type</option>
+              <option value="representatives">Representatives</option>
+              <option value="senators">Senators</option>
+            </select>
+            <select form="selectform" onChange={this.handleStateChange}>
+              <option>--</option>
+              {stateSelect}
+            </select>
+            <button type="submit">Search</button>
+          </form>
+        </div>
+        <div className="info">
+          <div>
+            <h2>List / Representatives</h2>
+            <section className="results">
+              <section>
+                <h3>Name</h3>
+                <ul>{repList}</ul>
+              </section>
+              <section>
+                <h3>Party</h3>
+                <ul>{partyList}</ul>
+              </section>
+            </section>
+          </div>
+          <div>
+            <h2>Info</h2>
+            <section>
+              <div className="info-box">
+                <p>{first}</p>
+              </div>
+              <div className="info-box">
+                <p>{last}</p>
+              </div>
+              <div className="info-box">
+                <p>{district}</p>
+              </div>
+              <div className="info-box">
+                <p>{phone}</p>
+              </div>
+              <div className="info-box">
+                <p>{office}</p>
+              </div>
+              <div className="info-box">
+                <p>{link}</p>
+              </div>
+            </section>
+          </div>
+        </div>
       </div>
     );
   }
 }
-
-export default App;
