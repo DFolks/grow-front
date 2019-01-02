@@ -48,7 +48,6 @@ export default class App extends React.Component {
     this.setState({
       selectedRep: this.state.data[i]
     });
-    // let selectedRep = this.state.data[i];
   };
   render() {
     const states = [
@@ -148,13 +147,17 @@ export default class App extends React.Component {
     }
 
     return (
-      <div>
-        <div>
-          <h1>Who's My Representative?</h1>
+      <div className="app">
+        <div className="title">
+          <h3>Who's My Representative?</h3>
         </div>
         {error}
-        <div>
-          <form onSubmit={e => this.onSubmit(e)} id="selectform">
+        <div className="form-section">
+          <form
+            className="form"
+            onSubmit={e => this.onSubmit(e)}
+            id="selectform"
+          >
             <select form="selectform" onChange={this.handleChange}>
               <option>Choose Type</option>
               <option value="representatives">Representatives</option>
@@ -168,20 +171,23 @@ export default class App extends React.Component {
           </form>
         </div>
         <div className="info">
-          <div>
-            <h2>List / Representatives</h2>
+          <div className="repList">
+            <h2>
+              List /<span className="info-List"> Representatives </span>
+            </h2>
+
             <section className="results">
               <section>
-                <h3>Name</h3>
+                <p>Name</p>
                 <ul>{repList}</ul>
               </section>
               <section>
-                <h3>Party</h3>
+                <p>Party</p>
                 <ul>{partyList}</ul>
               </section>
             </section>
           </div>
-          <div>
+          <div className="repInfo">
             <h2>Info</h2>
             <section>
               <div className="info-box">

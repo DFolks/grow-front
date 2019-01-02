@@ -1,17 +1,75 @@
+.app {
+  margin-left: 25px;
+  color: #72757e;
+}
+
+.title {
+  color: #03a9ee;
+}
+
+h2 {
+  font-weight: normal;
+}
 .results {
   display: flex;
   justify-content: space-between;
+  color: #818380;
+}
+
+.results li {
+  text-shadow: 0.2px 0.2px black;
+}
+
+.form-section {
+  margin-left: 10px;
+  background-color: #489dff;
+  width: 500px;
+  height: 30px;
+}
+
+.form > * {
+  margin-left: 10px;
+  margin-top: 5px;
 }
 
 .info {
   display: flex;
-  justify-content: space-around;
+  margin-left: -10px;
+}
+
+.info > * {
+  margin: 10px;
+}
+
+.info-List {
+  color: #59b1ef;
+}
+
+.repList {
+  width: 300px;
+}
+
+.repInfo {
+  margin-left: 100px;
 }
 
 .info-box {
-  background-color: lightblue;
+  background-color: #f4f4f4;
+  height: 35px;
+  margin-top: 5px;
+}
+
+.info-box p {
+  padding: 5px;
+  color: #bfb7bb;
 }
 
 .results li {
   list-style-type: none;
+  margin-left: -30px;
+}
+
+li {
+  margin-left: -40px;
+  margin-bottom: 20px;
 }
