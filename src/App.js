@@ -115,7 +115,11 @@ export default class App extends React.Component {
     if (this.state.data) {
       repList = this.state.data.map((ele, index) => {
         return (
-          <li key={index} onClick={() => this.populateData(index)}>
+          <li
+            key={index}
+            onClick={() => this.populateData(index)}
+            className="rep-list"
+          >
             {ele.name}
           </li>
         );
